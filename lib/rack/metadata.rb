@@ -1,3 +1,5 @@
+require "multi_json"
+
 require "rack/metadata/version"
 require "rack/metadata/config"
 
