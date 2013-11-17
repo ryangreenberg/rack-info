@@ -1,6 +1,6 @@
 require "rack/metadata/version"
 
 module Rack
-  module Metadata
+  class Metadata
   end
 end

@@ -1,5 +1,5 @@
 module Rack
-  module Metadata
+  class Metadata
     VERSION = "0.0.1"
   end
 end
