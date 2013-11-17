@@ -58,7 +58,7 @@ module Rack
       content = ""
       body.each {|ea| content << ea}
       new_html_content = HTMLComment.format(config.metadata)
-      content.sub(config.insert_html_after, config.insert_html_after + new_html_content)
+      [ content.sub(config.insert_html_after, config.insert_html_after + new_html_content) ]
     end
   end
 end
