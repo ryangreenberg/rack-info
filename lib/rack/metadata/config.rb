@@ -1,6 +1,6 @@
 class Rack::Metadata
   class Config
-    attr_accessor :metadata, :add_headers, :add_html_comment, :is_enabled, :path
+    attr_accessor :metadata, :add_headers, :add_html_comment, :is_enabled, :path, :insert_html_after
 
     def self.from(obj)
       obj.is_a?(self) ? obj : self.new {|cnf| cnf.metadata = obj }
@@ -19,6 +19,10 @@ class Rack::Metadata
       add_headers.respond_to?(:call) ? add_headers.call(env, rsp) : add_headers
     end
 
+    def add_html_comment?(env, rsp)
+      add_html_comment.respond_to?(:call) ? add_html_comment.call(env, rsp) : add_html_comment
+    end
+
     private
 
     def set_defaults
@@ -26,6 +30,7 @@ class Rack::Metadata
       self.is_enabled = true
       self.add_headers = true
       self.add_html_comment = true
+      self.insert_html_after = '</body>'
       self.path = nil
     end
   end

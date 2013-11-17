@@ -71,7 +71,12 @@ describe Rack::Metadata do
         rsp.headers.should == unchanged_rsp(NOT_FOUND_APP, env).headers
       end
 
-      it "does not modify HTML"
+      it "does not modify HTML" do
+        env = rack_env
+        app = rack_app(HTML_APP, Rack::Metadata, @config)
+        rsp = app.call(env)
+        rsp.body.should == unchanged_rsp(HTML_APP, env).body
+      end
     end
 
     context "when config.add_headers? returns true" do
@@ -94,6 +99,36 @@ describe Rack::Metadata do
         app = rack_app(OK_APP, Rack::Metadata, config)
         rsp = app.call(env)
         rsp.headers.should == unchanged_rsp(OK_APP, env).headers
+      end
+    end
+
+    context "when config.add_html_comment? returns true" do
+      before :each do
+        @config = base_config
+        @config.stub(:add_html_comment?).and_return(true)
+        @env = rack_env
+      end
+
+      it "adds an HTML comment when the response Content-Type is text/html" do
+        app = rack_app(HTML_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.headers["Content-Type"].should == "text/html"
+        rsp.body.should include Rack::Metadata::HTMLComment.format(@config.metadata)
+      end
+
+      it "puts the HTML comment after config.insert_html_after" do
+        @config.insert_html_after = "<html>"
+        app = rack_app(HTML_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.headers["Content-Type"].should == "text/html"
+        rsp.body.should include("<html>" + Rack::Metadata::HTMLComment.format(@config.metadata))
+      end
+
+      it "does not modify the response body when Content-Type is not text/html" do
+        app = rack_app(OK_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.headers["Content-Type"].should_not == "text/html"
+        rsp.body.should == unchanged_rsp(OK_APP, @env).body
       end
     end
 

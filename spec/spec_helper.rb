@@ -7,9 +7,23 @@ require 'rack/builder'
 require 'rspec'
 require 'rspec/autorun'
 
+HTML =<<MARKUP
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Internet</html>
+  </head>
+  <body>
+    <h1>The Internet</h1>
+    <p>Welcome</p>
+  </body>
+</html>
+MARKUP
+
 # Simple Rack apps for testing
 OK_APP = lambda {|env| [200, {'Content-Type' => 'text/plain'}, ['OK']] }
-NOT_FOUND_APP = lambda {|env| [400, {'Content-Type' => 'html'}, ['Not found']] }
+NOT_FOUND_APP = lambda {|env| [400, {'Content-Type' => 'text/plain'}, ['Not found']] }
+HTML_APP = lambda {|env| [200, {'Content-Type' => 'text/html'}, [HTML]] }
 
 module RackSpecHelpers
   def rack_env(path="/")
