@@ -18,7 +18,19 @@ describe Rack::Metadata do
     end
 
     context "when config.enabled? returns false" do
-      it "does not add headers"
+      before :each do
+        @config = base_config
+        @config.stub(:enabled?).and_return(false)
+      end
+
+      it "does not add headers" do
+        env = rack_env
+        @config.stub(:add_headers?).and_return(true)
+        app = rack_app(OK_APP, Rack::Metadata, @config)
+        rsp = app.call(env)
+        rsp.headers.should == unchanged_rsp(OK_APP, env).headers
+      end
+
       it "does not modify HTML"
       it "calls the underlying app when config.path is requested"
     end

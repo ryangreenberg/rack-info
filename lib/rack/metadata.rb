@@ -22,6 +22,8 @@ module Rack
     end
 
     def call(env)
+      return app.call(env) unless config.enabled?(env)
+
       @app.call(env).tap do |status, headers, body|
         headers.merge!(@metadata_headers) if config.add_headers?(env, [status, headers, body])
       end
