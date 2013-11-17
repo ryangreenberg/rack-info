@@ -31,8 +31,15 @@ describe Rack::Metadata do
         rsp.headers.should == unchanged_rsp(OK_APP, env).headers
       end
 
+      it "calls the underlying app even if config.path is requested" do
+        env = rack_env
+        @config.path = env["PATH_INFO"]
+        app = rack_app(NOT_FOUND_APP, Rack::Metadata, @config)
+        rsp = app.call(env)
+        rsp.headers.should == unchanged_rsp(NOT_FOUND_APP, env).headers
+      end
+
       it "does not modify HTML"
-      it "calls the underlying app when config.path is requested"
     end
 
     context "when config.add_headers? returns true" do
@@ -55,6 +62,38 @@ describe Rack::Metadata do
         app = rack_app(OK_APP, Rack::Metadata, config)
         rsp = app.call(env)
         rsp.headers.should == unchanged_rsp(OK_APP, env).headers
+      end
+    end
+
+    context "when config.path matches the request path" do
+      before :each do
+        @config = base_config
+        @config.path = "/version"
+        @env = rack_env(@config.path)
+      end
+
+      it "does not call the underlying app" do
+        uncalled_app = lambda {|env| raise RuntimeError, "Underlying app should not be called" }
+        app = rack_app(uncalled_app, Rack::Metadata, @config)
+        lambda { app.call(@env) }.should_not raise_error
+      end
+
+      it "returns HTTP 200" do
+        app = rack_app(NOT_FOUND_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.status.should == 200
+      end
+
+      it "sets the Content-Type to application/json" do
+        app = rack_app(NOT_FOUND_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.headers["Content-Type"].should == "application/json"
+      end
+
+      it "returns config.metadata as a JSON string" do
+        app = rack_app(NOT_FOUND_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.body.should == '{"some_key":"some_value"}'
       end
     end
   end

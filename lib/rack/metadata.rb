@@ -23,6 +23,7 @@ module Rack
 
     def call(env)
       return app.call(env) unless config.enabled?(env)
+      return json_rsp if config.path == env["PATH_INFO"]
 
       @app.call(env).tap do |status, headers, body|
         headers.merge!(@metadata_headers) if config.add_headers?(env, [status, headers, body])
@@ -35,6 +36,10 @@ module Rack
       Hash[@config.metadata.map do |k, v|
         [self.class.header_name(k), self.class.header_value(v)]
       end]
+    end
+
+    def json_rsp
+      [200, {"Content-Type" => "application/json"}, [MultiJson.dump(config.metadata)]]
     end
   end
 end

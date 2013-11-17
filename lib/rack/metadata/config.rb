@@ -26,6 +26,7 @@ class Rack::Metadata
       self.is_enabled = true
       self.add_headers = true
       self.add_html_comment = true
+      self.path = nil
     end
   end
 end
