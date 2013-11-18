@@ -58,7 +58,7 @@ module Rack
     def add_html(body)
       content = ""
       body.each {|ea| content << ea}
-      new_html_content = HTMLComment.format(config.metadata)
+      new_html_content = config.html_formatter.format(config.metadata)
       [ content.sub(config.insert_html_after, config.insert_html_after + new_html_content) ]
     end
   end

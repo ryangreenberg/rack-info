@@ -33,12 +33,15 @@ class Rack::Metadata
     # response tuple are provided to a callable object. Note: content is only
     # added to responses of content-type text/html. (default: true)
     #
+    # html_formatter: object that converts metadata pairs to an HTML string.
+    # (default: HTMLComment)
+    #
     # insert_html_after: the HTML tag after which the HTML metadata will be
     # added. (default: </body>)
     #
     # path: an endpoint at which metadata will be returned as a JSON string.
     # Set to nil to disable. (default: nil)
-    attr_accessor :metadata, :is_enabled, :add_headers, :add_html, :insert_html_after, :path
+    attr_accessor :metadata, :is_enabled, :add_headers, :add_html, :html_formatter, :insert_html_after, :path
 
     def self.from(obj)
       obj.is_a?(self) ? obj : self.new {|cnf| cnf.metadata = obj }
@@ -68,6 +71,7 @@ class Rack::Metadata
       self.is_enabled = true
       self.add_headers = true
       self.add_html = true
+      self.html_formatter = HTMLComment
       self.insert_html_after = '</body>'
       self.path = nil
     end

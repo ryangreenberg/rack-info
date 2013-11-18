@@ -106,6 +106,7 @@ describe Rack::Metadata do
       before :each do
         @config = base_config
         @config.stub(:add_html?).and_return(true)
+        @config.html_formatter = Rack::Metadata::HTMLComment
         @env = rack_env
       end
 
@@ -121,6 +122,23 @@ describe Rack::Metadata do
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
         rsp.body.should include("<html>" + Rack::Metadata::HTMLComment.format(@config.metadata))
+      end
+
+      it "uses the HTML fragment provided by config.html_formatter" do
+        formatter = double("formatter")
+        allow(formatter).to receive(:format).and_return("<strong>content</strong>")
+        @config.html_formatter = formatter
+        app = rack_app(HTML_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.body.should include("<strong>content</strong>")
+      end
+
+      it "provides config.metadata when calling config.html_formatter" do
+        formatter = double("formatter", :format => "")
+        @config.html_formatter = formatter
+        app = rack_app(HTML_APP, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        expect(formatter).to have_received(:format).with(@config.metadata)
       end
 
       it "does not modify the response body when Content-Type is not text/html" do
