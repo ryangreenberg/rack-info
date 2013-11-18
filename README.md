@@ -26,11 +26,11 @@ run Rack::Lobster.new
 For more complex usage, use a Rack::Metadata::Config object:
 
 ```
-use Rack::Metadata, Rack::Metadata::Config.new do |config|
+use(Rack::Metadata, Rack::Metadata::Config.new do |config|
   # Set any desired options; see Configuration below
   config.availability = lambda {|env| [true, false].sample }
   config.endpoint = "/version"
-end
+end)
 ```
 
 ## Configuration
