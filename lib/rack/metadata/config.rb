@@ -4,11 +4,11 @@ class Rack::Metadata
     # or by setting values directly on a new instance:
     #
     # Rack::Metadata::Config.new do |config|
-    #   config.add_html_comment = false
+    #   config.add_html = false
     # end
     #
     # config = Rack::Metadata::Config.new
-    # config.add_html_comment = false
+    # config.add_html = false
     #
     # Configuration options:
     #
@@ -27,7 +27,7 @@ class Rack::Metadata
     # with a boolean value. The Rack request environment *and* current Rack
     # response tuple are provided to a callable object. (default: true)
     #
-    # add_html_comment: whether or not metadata will be added to this request
+    # add_html: whether or not metadata will be added to this request
     # as HTML. It can be a boolean value, or an objects that responds to .call
     # with a boolean value. The Rack request environment *and* current Rack
     # response tuple are provided to a callable object. Note: content is only
@@ -38,7 +38,7 @@ class Rack::Metadata
     #
     # path: an endpoint at which metadata will be returned as a JSON string.
     # Set to nil to disable. (default: nil)
-    attr_accessor :metadata, :is_enabled, :add_headers, :add_html_comment, :insert_html_after, :path
+    attr_accessor :metadata, :is_enabled, :add_headers, :add_html, :insert_html_after, :path
 
     def self.from(obj)
       obj.is_a?(self) ? obj : self.new {|cnf| cnf.metadata = obj }
@@ -57,8 +57,8 @@ class Rack::Metadata
       add_headers.respond_to?(:call) ? add_headers.call(env, rsp) : add_headers
     end
 
-    def add_html_comment?(env, rsp)
-      add_html_comment.respond_to?(:call) ? add_html_comment.call(env, rsp) : add_html_comment
+    def add_html?(env, rsp)
+      add_html.respond_to?(:call) ? add_html.call(env, rsp) : add_html
     end
 
     private
@@ -67,7 +67,7 @@ class Rack::Metadata
       self.metadata = {}
       self.is_enabled = true
       self.add_headers = true
-      self.add_html_comment = true
+      self.add_html = true
       self.insert_html_after = '</body>'
       self.path = nil
     end

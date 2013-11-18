@@ -1,6 +1,5 @@
 - Add support for inserting HTML after a regex
 - Allow metadata to have dynamic values based on a lambda
 - Cache HTML content and header content when metadata values are not dynamic
-- Remove the concept of HTML comments--metatags would also be useful
 - Allow the HTML formtted to be specified in the config
 - Have the config validate itself, and raise an exception in ::Metadata if config is invalid

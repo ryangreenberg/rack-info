@@ -102,25 +102,24 @@ describe Rack::Metadata do
       end
     end
 
-    context "when config.add_html_comment? returns true" do
+    context "when config.add_html? returns true" do
       before :each do
         @config = base_config
-        @config.stub(:add_html_comment?).and_return(true)
+        @config.stub(:add_html?).and_return(true)
         @env = rack_env
       end
 
-      it "adds an HTML comment when the response Content-Type is text/html" do
+      it "adds an HTML fragment when the response Content-Type is text/html" do
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
         rsp.headers["Content-Type"].should == "text/html"
         rsp.body.should include Rack::Metadata::HTMLComment.format(@config.metadata)
       end
 
-      it "puts the HTML comment after config.insert_html_after" do
+      it "puts the HTML fragment after config.insert_html_after" do
         @config.insert_html_after = "<html>"
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
-        rsp.headers["Content-Type"].should == "text/html"
         rsp.body.should include("<html>" + Rack::Metadata::HTMLComment.format(@config.metadata))
       end
 

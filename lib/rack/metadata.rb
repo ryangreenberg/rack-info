@@ -31,8 +31,8 @@ module Rack
 
       status, headers, body = @app.call(env)
       headers.merge!(@metadata_headers) if config.add_headers?(env, [status, headers, body])
-      if html?(headers) && config.add_html_comment?(env, [status, headers, body])
-        body = add_html_comment(body)
+      if html?(headers) && config.add_html?(env, [status, headers, body])
+        body = add_html(body)
       end
 
       [status, headers, body]
@@ -54,7 +54,7 @@ module Rack
       headers[CONTENT_TYPE_HEADER] == HTML_CONTENT_TYPE
     end
 
-    def add_html_comment(body)
+    def add_html(body)
       content = ""
       body.each {|ea| content << ea}
       new_html_content = HTMLComment.format(config.metadata)
