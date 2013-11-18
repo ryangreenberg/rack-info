@@ -4,6 +4,7 @@ require "rack/metadata/version"
 require "rack/metadata/config"
 require "rack/metadata/html_formatter"
 require "rack/metadata/html_comment"
+require "rack/metadata/html_meta_tag"
 
 module Rack
   class Metadata
