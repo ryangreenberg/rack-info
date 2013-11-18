@@ -2,7 +2,7 @@ class Rack::Metadata
   # See http://www.w3.org/TR/html-markup/spec.html#comments and
   # http://www.w3.org/TR/html5/syntax.html#comments for restrictions on
   # HTML comments.
-  class HTMLComment
+  class HTMLComment < HTMLFormatter
     START_COMMENT = "<!--"
     END_COMMENT = "-->"
     INVALID_COMMENT_CONTENT = "--"
