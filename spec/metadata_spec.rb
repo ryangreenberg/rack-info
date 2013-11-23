@@ -117,6 +117,15 @@ describe Rack::Metadata do
         rsp.body.should include Rack::Metadata::HTMLComment.format(@config.metadata)
       end
 
+      it "adds an HTML fragment when the response Content-Type is 'text/html; charset=utf-8'" do
+        charset_app = lambda do |env|
+          HTML_APP.call(env).tap {|s, h, b| h.merge!('Content-Type' => 'text/html; charset=utf-8') }
+        end
+        app = rack_app(charset_app, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.body.should include Rack::Metadata::HTMLComment.format(@config.metadata)
+      end
+
       it "puts the HTML fragment after config.insert_html_after" do
         @config.insert_html_after = "<html>"
         app = rack_app(HTML_APP, Rack::Metadata, @config)
