@@ -53,7 +53,7 @@ other configuration. (default: `{}`)
 - `is_enabled`: whether or not this middleware will add any metadata to the response. It can be a boolean value, or an object that responds to .call with a boolean value. The Rack request environment is provided to a callable object. This can be useful for adding data only to requests from a certain IP block, for example. (default: `true`)
 - `add_headers`: whether or not metadata will be added to this request as X-headers. It can be a boolean value, or an object that responds to .call with a boolean value. The Rack request environment _and_ current Rack response tuple are provided to a callable object. (default: `true`)
 - `add_html`: whether or not metadata will be added to this request as HTML. It can be a boolean value, or an object that responds to .call with a boolean value. The Rack request environment *and* current Rack response tuple are provided to a callable object. Note: content is only added to responses with a content-type header of text/html. (default: `true`)
-- `insert_html_after`: the HTML tag after which the HTML metadata will be added. (default: `&lt;/body&gt;`)
+- `insert_html_after`: the HTML tag after which the HTML metadata will be added. (default: `</body>`)
 - `html_formatter`: object that converts metadata pairs to an HTML string. See `HTMLComment` and `HTMLMetaTag` for examples. (default: `HTMLComment`)
 - `path`: an endpoint at which metadata will be returned as a JSON string. Set to nil to disable. (default: `nil`)
 
