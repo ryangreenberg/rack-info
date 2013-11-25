@@ -60,7 +60,7 @@ module Rack
       content = ""
       body.each {|ea| content << ea}
       new_html_content = config.html_formatter.format(config.metadata)
-      [ content.sub(config.insert_html_after) {|match| match + new_html_content) ]
+      [ content.sub(config.insert_html_after) {|match| match + new_html_content } ]
     end
   end
 end

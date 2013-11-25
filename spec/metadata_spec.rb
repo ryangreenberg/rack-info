@@ -137,7 +137,7 @@ describe Rack::Metadata do
         @config.insert_html_after = /<head.*?>/
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
-        rsp.body.should include("<html>" + Rack::Metadata::HTMLComment.format(@config.metadata))
+        rsp.body.should include("<head>" + Rack::Metadata::HTMLComment.format(@config.metadata))
       end
 
       it "uses the HTML fragment provided by config.html_formatter" do

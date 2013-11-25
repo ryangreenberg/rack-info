@@ -1,5 +1,4 @@
 - Ensure that HTTP headers are properly sanitized (see http://tools.ietf.org/html/rfc2616#section-4.2, http://tools.ietf.org/html/rfc2616#section-6.2, http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html)
-- Add support for inserting HTML after a regex
 - Allow metadata to have dynamic values when values are callable
 - Cache HTML content and header content when metadata values are not dynamic
 - Have the config validate itself, and raise an exception in ::Metadata if config is invalid
