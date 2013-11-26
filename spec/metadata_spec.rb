@@ -157,6 +157,13 @@ describe Rack::Metadata do
         expect(formatter).to have_received(:format).with(@config.metadata)
       end
 
+      it "does not error if Content-Type is not provided" do
+        malformed_app = lambda {|env| [200, {}, ["OK"]] }
+        app = rack_app(malformed_app, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.body.should == unchanged_rsp(malformed_app, @env).body
+      end
+
       it "does not modify the response body when Content-Type is not text/html" do
         app = rack_app(OK_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
