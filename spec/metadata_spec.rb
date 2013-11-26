@@ -133,7 +133,7 @@ describe Rack::Metadata do
         rsp.body.should include("<html>" + Rack::Metadata::HTMLComment.format(@config.metadata))
       end
 
-      it "puts the HTML fragment a config.insert_html_after regex" do
+      it "puts the HTML fragment after config.insert_html_after as a regex" do
         @config.insert_html_after = /<head.*?>/
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
@@ -155,6 +155,13 @@ describe Rack::Metadata do
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
         expect(formatter).to have_received(:format).with(@config.metadata)
+      end
+
+      it "does not error if Content-Type is not provided" do
+        malformed_app = lambda {|env| [200, {}, ["OK"]] }
+        app = rack_app(malformed_app, Rack::Metadata, @config)
+        rsp = app.call(@env)
+        rsp.body.should == unchanged_rsp(malformed_app, @env).body
       end
 
       it "does not modify the response body when Content-Type is not text/html" do

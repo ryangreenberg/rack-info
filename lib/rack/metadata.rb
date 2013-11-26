@@ -53,6 +53,7 @@ module Rack
     end
 
     def html?(headers)
+      headers[CONTENT_TYPE_HEADER] &&
       headers[CONTENT_TYPE_HEADER].start_with?(HTML_CONTENT_TYPE)
     end
 
