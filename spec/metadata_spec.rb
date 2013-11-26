@@ -133,7 +133,7 @@ describe Rack::Metadata do
         rsp.body.should include("<html>" + Rack::Metadata::HTMLComment.format(@config.metadata))
       end
 
-      it "puts the HTML fragment a config.insert_html_after regex" do
+      it "puts the HTML fragment after config.insert_html_after as a regex" do
         @config.insert_html_after = /<head.*?>/
         app = rack_app(HTML_APP, Rack::Metadata, @config)
         rsp = app.call(@env)
