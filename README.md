@@ -12,21 +12,35 @@ gem install rack-metadata
 
 ## Usage
 
-For the simple case where you want to add the same values as headers to every request, provide `Rack::Metadata` with a hash of key/value pairs:
+For the simple case where you want to add the same values as headers to every request, provide `Rack::Metadata` with a hash of key/value pairs.
 
+Here's an example from `examples/basic_example.ru`:
 ```
-require 'rack'
 require 'rack/metadata'
+require 'socket'
 
+use Rack::Head
 use Rack::Metadata, {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
 run lambda {|env| [200, {"Content-Type" => "text/plain"}, ["OK"]] }
 ```
 
-For more complex usage, use a `Rack::Metadata::Config` object:
+After you start a server by running `rackup config/basic_example.ru`, you can see the headers are added to your request:
+
+```
+$ curl -I http://localhost:9292
+HTTP/1.1 200 OK
+X-Git: 3e534f6302eca4e8f94456efa09523b49b1c41c7
+X-Host: Ollantaytambo.local
+Transfer-Encoding: chunked
+Connection: close
+```
+
+For more complex cases, use a `Rack::Metadata::Config` object:
 
 ```
 use(Rack::Metadata, Rack::Metadata::Config.new do |config|
   # Set any desired options; see Configuration below
+  config.metadata = {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
   config.is_enabled = lambda {|env| [true, false].sample }
   config.path = "/version"
 end)

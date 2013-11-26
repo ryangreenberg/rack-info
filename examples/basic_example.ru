@@ -4,4 +4,4 @@ require 'socket'
 
 use Rack::Head
 use Rack::Metadata, {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
-run lambda {|env| [200, {}, ["OK"]] }
+run lambda {|env| [200, {"Content-Type" => "text/plain"}, ["OK"]] }
