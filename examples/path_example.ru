@@ -1,8 +1,8 @@
 $:.unshift(File.expand_path('../../lib', __FILE__))
-require 'rack/metadata'
+require 'rack/info'
 require 'socket'
 
-use(Rack::Metadata, Rack::Metadata::Config.new do |config|
+use(Rack::Info, Rack::Info::Config.new do |config|
   config.metadata = {:git => `git rev-parse HEAD`, :host => Socket.gethostname}
   config.path = "/server_info"
 end)

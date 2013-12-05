@@ -1,13 +1,13 @@
 require "multi_json"
 
-require "rack/metadata/version"
-require "rack/metadata/config"
-require "rack/metadata/html_formatter"
-require "rack/metadata/html_comment"
-require "rack/metadata/html_meta_tag"
+require "rack/info/version"
+require "rack/info/config"
+require "rack/info/html_formatter"
+require "rack/info/html_comment"
+require "rack/info/html_meta_tag"
 
 module Rack
-  class Metadata
+  class Info
     CONTENT_TYPE_HEADER = 'Content-Type'
     HTML_CONTENT_TYPE = 'text/html'
 

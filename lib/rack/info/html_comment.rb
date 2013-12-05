@@ -1,4 +1,4 @@
-class Rack::Metadata
+class Rack::Info
   # See http://www.w3.org/TR/html-markup/spec.html#comments and
   # http://www.w3.org/TR/html5/syntax.html#comments for restrictions on
   # HTML comments.

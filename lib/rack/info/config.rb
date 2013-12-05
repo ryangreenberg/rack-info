@@ -1,13 +1,13 @@
-class Rack::Metadata
+class Rack::Info
   class Config
     # You can create a configuration by providing a block to the constructor,
     # or by setting values directly on a new instance:
     #
-    # Rack::Metadata::Config.new do |config|
+    # Rack::Info::Config.new do |config|
     #   config.add_html = false
     # end
     #
-    # config = Rack::Metadata::Config.new
+    # config = Rack::Info::Config.new
     # config.add_html = false
     #
     # Configuration options (see README for explanation of options)

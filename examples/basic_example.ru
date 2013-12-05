@@ -1,7 +1,7 @@
 $:.unshift(File.expand_path('../../lib', __FILE__))
-require 'rack/metadata'
+require 'rack/info'
 require 'socket'
 
 use Rack::Head
-use Rack::Metadata, {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
+use Rack::Info, {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
 run lambda {|env| [200, {"Content-Type" => "text/plain"}, ["OK"]] }

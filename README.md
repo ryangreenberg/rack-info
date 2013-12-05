@@ -1,6 +1,6 @@
-# Rack::Metadata
+# Rack::Info
 
-`Rack::Metadata` is a Rack middleware that can be used to add information about your application or environment to requests. You can use it to expose information like the current version of the application or which host served the request.
+`Rack::Info` is a Rack middleware that can be used to add information about your application or environment to requests. You can use it to expose information like the current version of the application or which host served the request.
 
 Metadata can be added as X-headers, output as HTML, or served from a dedicated endpoint.
 
@@ -12,15 +12,15 @@ gem install rack-metadata
 
 ## Usage
 
-For the simple case where you want to add the same values as headers to every request, provide `Rack::Metadata` with a hash of key/value pairs.
+For the simple case where you want to add the same values as headers to every request, provide `Rack::Info` with a hash of key/value pairs.
 
 Here's an example from `examples/basic_example.ru`:
 ```
-require 'rack/metadata'
+require 'rack/info'
 require 'socket'
 
 use Rack::Head
-use Rack::Metadata, {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
+use Rack::Info, {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
 run lambda {|env| [200, {"Content-Type" => "text/plain"}, ["OK"]] }
 ```
 
@@ -35,10 +35,10 @@ Transfer-Encoding: chunked
 Connection: close
 ```
 
-For more complex cases, use a `Rack::Metadata::Config` object:
+For more complex cases, use a `Rack::Info::Config` object:
 
 ```
-use(Rack::Metadata, Rack::Metadata::Config.new do |config|
+use(Rack::Info, Rack::Info::Config.new do |config|
   # Set any desired options; see Configuration below
   config.metadata = {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
   config.is_enabled = lambda {|env| [true, false].sample }
@@ -48,14 +48,14 @@ end)
 
 ## Configuration
 
-Configuration is done via an instance of `Rack::Metadata::Config`. You can create a configuration by providing a block to the constructor, or by setting values directly on a new instance:
+Configuration is done via an instance of `Rack::Info::Config`. You can create a configuration by providing a block to the constructor, or by setting values directly on a new instance:
 
 ```
-Rack::Metadata::Config.new do |config|
+Rack::Info::Config.new do |config|
   config.add_html = false
 end
 
-config = Rack::Metadata::Config.new
+config = Rack::Info::Config.new
 config.add_html = false
 ```
 

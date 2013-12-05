@@ -1,1 +1,1 @@
-require 'rack/metadata'
+require 'rack/info'
