@@ -1,28 +1,28 @@
-class Rack::Metadata
+class Rack::Info
   class Config
     # You can create a configuration by providing a block to the constructor,
     # or by setting values directly on a new instance:
     #
-    # Rack::Metadata::Config.new do |config|
+    # Rack::Info::Config.new do |config|
     #   config.add_html = false
     # end
     #
-    # config = Rack::Metadata::Config.new
+    # config = Rack::Info::Config.new
     # config.add_html = false
     #
     # Configuration options (see README for explanation of options)
-    #   - metadata
+    #   - data
     #   - is_enabled
     #   - add_headers
     #   - add_html
     #   - html_formatter
     #   - insert_html_after
     #   - path
-    attr_accessor :metadata, :is_enabled, :add_headers, :add_html,
+    attr_accessor :data, :is_enabled, :add_headers, :add_html,
       :html_formatter, :insert_html_after, :path
 
     def self.from(obj)
-      obj.is_a?(self) ? obj : self.new {|cnf| cnf.metadata = obj }
+      obj.is_a?(self) ? obj : self.new {|cnf| cnf.data = obj }
     end
 
     def initialize
@@ -45,7 +45,7 @@ class Rack::Metadata
     private
 
     def set_defaults
-      self.metadata = {}
+      self.data = {}
       self.is_enabled = true
       self.add_headers = true
       self.add_html = true

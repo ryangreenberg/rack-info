@@ -1,5 +1,5 @@
 $:.unshift('../lib')
-require 'rack/metadata'
+require 'rack/info'
 
 require 'rack'
 require 'rack/builder'

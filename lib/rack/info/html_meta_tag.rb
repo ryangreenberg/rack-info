@@ -1,4 +1,4 @@
-class Rack::Metadata
+class Rack::Info
   class HTMLMetaTag < HTMLFormatter
     def self.format(hsh)
       "\n" + hsh.map {|k, v| format_item(k, v) }.join("\n") + "\n"
