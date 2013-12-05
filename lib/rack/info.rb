@@ -19,7 +19,7 @@ module Rack
       obj.to_s
     end
 
-    attr_reader :app, :config, :metadata
+    attr_reader :app, :config
 
     def initialize(app, hsh_or_config = {})
       @app = app
