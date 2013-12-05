@@ -24,7 +24,7 @@ module Rack
     def initialize(app, hsh_or_config = {})
       @app = app
       @config = Config.from(hsh_or_config)
-      @metadata_headers = metadata_headers(@config.metadata)
+      @data_headers = to_headers(@config.data)
     end
 
     def call(env)
@@ -32,7 +32,7 @@ module Rack
       return json_rsp if config.path == env["PATH_INFO"]
 
       status, headers, body = @app.call(env)
-      headers.merge!(@metadata_headers) if config.add_headers?(env, [status, headers, body])
+      headers.merge!(@data_headers) if config.add_headers?(env, [status, headers, body])
       if html?(headers) && config.add_html?(env, [status, headers, body])
         body = add_html(body)
       end
@@ -42,14 +42,14 @@ module Rack
 
     private
 
-    def metadata_headers(hsh)
-      Hash[@config.metadata.map do |k, v|
+    def to_headers(hsh)
+      Hash[@config.data.map do |k, v|
         [self.class.header_name(k), self.class.header_value(v)]
       end]
     end
 
     def json_rsp
-      [200, {"Content-Type" => "application/json"}, [MultiJson.dump(config.metadata)]]
+      [200, {"Content-Type" => "application/json"}, [MultiJson.dump(config.data)]]
     end
 
     def html?(headers)
@@ -60,7 +60,7 @@ module Rack
     def add_html(body)
       content = ""
       body.each {|ea| content << ea}
-      new_html_content = config.html_formatter.format(config.metadata)
+      new_html_content = config.html_formatter.format(config.data)
       [ content.sub(config.insert_html_after) {|match| match + new_html_content } ]
     end
   end

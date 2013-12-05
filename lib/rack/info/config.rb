@@ -11,18 +11,18 @@ class Rack::Info
     # config.add_html = false
     #
     # Configuration options (see README for explanation of options)
-    #   - metadata
+    #   - data
     #   - is_enabled
     #   - add_headers
     #   - add_html
     #   - html_formatter
     #   - insert_html_after
     #   - path
-    attr_accessor :metadata, :is_enabled, :add_headers, :add_html,
+    attr_accessor :data, :is_enabled, :add_headers, :add_html,
       :html_formatter, :insert_html_after, :path
 
     def self.from(obj)
-      obj.is_a?(self) ? obj : self.new {|cnf| cnf.metadata = obj }
+      obj.is_a?(self) ? obj : self.new {|cnf| cnf.data = obj }
     end
 
     def initialize
@@ -45,7 +45,7 @@ class Rack::Info
     private
 
     def set_defaults
-      self.metadata = {}
+      self.data = {}
       self.is_enabled = true
       self.add_headers = true
       self.add_html = true

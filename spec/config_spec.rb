@@ -16,7 +16,7 @@ describe Rack::Info::Config do
     it "creates a new Config object from a hash" do
       hsh = {:key => :value}
       new_config = Rack::Info::Config.from(hsh)
-      new_config.metadata.should == hsh
+      new_config.data.should == hsh
     end
   end
 

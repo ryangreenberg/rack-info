@@ -5,7 +5,7 @@ require 'socket'
 HTML = "<html><head><title>My Website</title></head><body>My content</body></html>".freeze
 
 use(Rack::Info, Rack::Info::Config.new do |config|
-  config.metadata = {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
+  config.data = {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
   config.insert_html_after = '<head>'
   config.html_formatter = Rack::Info::HTMLMetaTag
 end)
