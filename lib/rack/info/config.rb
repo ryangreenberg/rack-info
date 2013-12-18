@@ -42,6 +42,16 @@ class Rack::Info
       add_html.respond_to?(:call) ? add_html.call(env, rsp) : add_html
     end
 
+    def valid?
+      true
+    end
+
+    def errors
+      [
+        validate_html_formatter
+      ]
+    end
+
     private
 
     def set_defaults
@@ -52,6 +62,10 @@ class Rack::Info
       self.html_formatter = HTMLComment
       self.insert_html_after = '</body>'
       self.path = nil
+    end
+
+    def validate_html_formatter
+      "html_formatter #{html_formatter} does not have a format method" unless html_formatter.respond_to?(:format)
     end
   end
 end

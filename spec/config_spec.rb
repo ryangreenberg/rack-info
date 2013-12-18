@@ -56,4 +56,18 @@ describe Rack::Info::Config do
       end
     end
   end
+
+  describe "valid?" do
+    it "is true without any configuration" do
+      Rack::Info::Config.new.should be_valid
+    end
+  end
+
+  describe "errors" do
+    it "includes an error when html_formatter does not have a format method" do
+      config = Rack::Info::Config.new
+      config.html_formatter = Object.new
+      config.errors.any? {|ea| ea.include?("does not have a format method") }.should be_true
+    end
+  end
 end
