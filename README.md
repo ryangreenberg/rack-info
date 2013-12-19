@@ -1,5 +1,7 @@
 # Rack::Info
 
+[![Build Status](https://travis-ci.org/ryangreenberg/rack-info.png?branch=master)](https://travis-ci.org/ryangreenberg/rack-info)
+
 `Rack::Info` is a Rack middleware that can be used to add information about your application or environment to requests. You can use it to expose data like the current version of the application or which host served the request.
 
 This information can be added as X-headers, output as HTML, or served from a dedicated endpoint.
