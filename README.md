@@ -17,7 +17,7 @@ gem install rack-info
 For the simple case where you want to add the same values as headers to every request, provide `Rack::Info` with a hash of key/value pairs.
 
 Here's an example from `examples/basic_example.ru`:
-```
+```ruby
 require 'rack/info'
 require 'socket'
 
@@ -39,7 +39,7 @@ Connection: close
 
 For more complex cases, use a `Rack::Info::Config` object:
 
-```
+```ruby
 use(Rack::Info, Rack::Info::Config.new do |config|
   # Set any desired options; see Configuration below
   config.data = {:git => `git rev-parse HEAD`.strip, :host => Socket.gethostname}
@@ -52,7 +52,7 @@ end)
 
 Configuration is done via an instance of `Rack::Info::Config`. You can create a configuration by providing a block to the constructor, or by setting values directly on a new instance:
 
-```
+```ruby
 Rack::Info::Config.new do |config|
   config.add_html = false
 end
